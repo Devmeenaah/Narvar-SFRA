@@ -1,0 +1,41 @@
+<!--- Availability --->
+<div class="availability row product-availability" data-ready-to-order="${product.readyToOrder}" data-available="${product.available}">
+    <isinclude template="product/components/availability" />
+    
+    <isif condition="${pdict.enabledPlugins.CommercePayments && 
+                       (pdict.commercePaymentsConfiguration.expressCheckoutEnabled || pdict.commercePaymentsConfiguration.multiStepCheckoutEnabled)}">
+        <div class="col-12">
+            <isinclude template="product/components/addToCartPaymentCallout"/>
+        </div>
+    </isif>
+</div>
+
+<isif condition="${pdict.enabledPlugins.Wishlist || pdict.enabledPlugins.GiftRegistry}">
+    <div class="row">
+        <isif condition="${pdict.enabledPlugins.Wishlist}">
+            <div class="col-xs-12 col-sm-6">
+                <isinclude template="wishlist/components/addToWishListButton" />
+            </div>
+        </isif>
+        <isif condition="${!isQuickView}">
+            <isif condition="${pdict.enabledPlugins.GiftRegistry}">
+                <isif condition="${pdict.enabledPlugins.Wishlist && pdict.enabledPlugins.GiftRegistry}">
+                    <div class="col-xs-12 col-sm-6 product-list-button-spacer">
+                <iselse>
+                    <div class="col-xs-12 col-sm-6 ">
+                </isif>
+                    <isinclude template="giftRegistry/components/addToRegistryButton" />
+                </div>
+            </isif>
+        </isif>
+    </div>
+</isif>
+
+<isif condition="${!isQuickView}">
+    <isif condition="${pdict.enabledPlugins.InStorePickup}">
+        <!--- In store inventory --->
+        <div class="pdp-in-store-inventory ${pdict.enabledPlugins.Wishlist || pdict.enabledPlugins.GiftRegistry ? 'wl-or-gr-ispu' : ''}">
+            <isinclude template="product/components/pdpInstoreInventory" />
+        </div>
+    </isif>
+</isif>

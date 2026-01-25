@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+@import "~base/product/detail";
+@import "~instorepickup/product/pdpInstoreInventory";
+@import "~giftregistry/giftRegistry/addProductToRegistry";
+@import "~commercepayments/product/detail";
+
+.wl-or-gr-ispu {
+  padding-top: 1rem;
+}
+
+.product-list-button-spacer {
+  padding-top: 1rem;
+
+  @include media-breakpoint-up(sm) {
+    padding-top: 0;
+  }
+
+  button {
+    span {
+      @media (max-width: 992px) and (min-width: 768px) {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+.salesforce-buynow-element {
+  padding: 0 1.5em;
+}

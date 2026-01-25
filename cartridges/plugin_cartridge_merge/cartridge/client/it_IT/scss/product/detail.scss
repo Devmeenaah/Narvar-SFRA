@@ -1,0 +1,27 @@
+@import "../../../default/scss/product/detail";
+
+.product-list-button-spacer {
+  button {
+    span {
+      @media (max-width: 992px) and (min-width: 544px) {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.product-detail {
+  .add-to-wish-list {
+    span {
+      @media (max-width: 992px) and (min-width: 545px) {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .btn-get-in-store-inventory {
+    @media (max-width: 992px) and (min-width: 545px) {
+      font-size: 0.9rem;
+    }
+  }
+}

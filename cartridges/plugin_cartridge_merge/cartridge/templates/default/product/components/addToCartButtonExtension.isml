@@ -1,0 +1,10 @@
+<isif condition="${pdict.enabledPlugins.CommercePayments && pdict.commercePaymentsConfiguration.expressCheckoutEnabled}">
+    <isset name="buynowproduct" value="${product}" scope="page">
+    <isset name="buynowprice" value="${price}" scope="page">
+
+    <isinclude template="_commercepayments/components/product/buyNowButtons" sf-toolkit="off"/>
+<iselseif condition="${(session.custom.applepaysession === 'yes') && (product.available && product.readyToOrder) && pdict.enabledPlugins.ApplePay}">
+    <div class="col col-sm-5 pdp-apple-pay-button">
+        <isapplepay class="apple-pay-pdp btn" sku="${product.id}"></isapplepay>
+    </div>
+</isif>
