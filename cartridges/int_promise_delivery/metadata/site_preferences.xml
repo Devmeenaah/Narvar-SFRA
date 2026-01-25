@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-preference-group group-id="DeliveryPromise">
+        <display-name xml:lang="x-default">Delivery Promise Settings</display-name>
+        <description>Configuration for delivery date promise feature</description>
+        
+        <attribute-definition attribute-id="deliveryPromiseEnabled">
+            <display-name>Enable Delivery Promise</display-name>
+            <type>boolean</type>
+            <mandatory-flag>true</mandatory-flag>
+            <default-value>true</default-value>
+        </attribute-definition>
+        
+        <attribute-definition attribute-id="deliveryPromiseOriginZip">
+            <display-name>Origin ZIP Code</display-name>
+            <type>string</type>
+            <mandatory-flag>true</mandatory-flag>
+            <default-value>10001</default-value>
+        </attribute-definition>
+        
+        <attribute-definition attribute-id="deliveryPromiseCutoffTime">
+            <display-name>Cutoff Time (24hr format, EST)</display-name>
+            <type>string</type>
+            <mandatory-flag>true</mandatory-flag>
+            <default-value>14:00</default-value>
+        </attribute-definition>
+        
+        <attribute-definition attribute-id="deliveryPromiseHolidays">
+            <display-name>Holiday Dates (comma-separated YYYY-MM-DD)</display-name>
+            <type>text</type>
+            <mandatory-flag>false</mandatory-flag>
+            <default-value>2026-01-01,2026-07-04,2026-12-25</default-value>
+        </attribute-definition>
+
+        <attribute-definition attribute-id="enableNarvarPromiseInPdp">
+            <display-name>On the Checkout page, enable the delivery promise widget</display-name>
+            <type>boolean</type>
+            <mandatory-flag>true</mandatory-flag>
+            <default-value>true</default-value>
+        </attribute-definition>
+
+        <attribute-definition attribute-id="enableNarvarPromiseInCheckout">
+            <display-name>On the Checkout page, enable the delivery promise widget</display-name>
+            <type>boolean</type>
+            <mandatory-flag>true</mandatory-flag>
+            <default-value>true</default-value>
+        </attribute-definition>
+        
+        <attribute-definition attribute-id="transitMap">
+            <display-name>Maps destination ZIP ranges to business days</display-name>
+            <type>text</type>
+            <mandatory-flag>false</mandatory-flag>
+            <default-value>TRANSIT_MAP</default-value>
+        </attribute-definition>
+        
+    </custom-preference-group> 
+</metadata>

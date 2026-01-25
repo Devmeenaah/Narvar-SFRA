@@ -1,0 +1,74 @@
+
+.delivery-promise-widget {
+    margin: 20px 0;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.delivery-promise-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    
+    .delivery-icon {
+        font-size: 20px;
+        margin-right: 8px;
+    }
+    
+    .delivery-label {
+        font-weight: 600;
+        margin: 0;
+        color: #333;
+    }
+}
+
+.delivery-promise-input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    
+    .delivery-zip-input {
+        flex: 1;
+        max-width: 150px;
+    }
+    
+    .delivery-check-btn {
+        white-space: nowrap;
+    }
+}
+
+.delivery-promise-result {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #e8f5e9;
+    border-radius: 4px;
+    
+    .delivery-icon {
+        font-size: 18px;
+        margin-right: 8px;
+    }
+    
+    .delivery-text {
+        color: #2e7d32;
+        font-size: 14px;
+        
+        strong {
+            font-weight: 700;
+        }
+    }
+}
+
+.delivery-promise-error {
+    padding: 8px;
+    font-size: 13px;
+}
+
+.shipping-method-delivery-date {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #2e7d32;
+    font-weight: 500;
+}

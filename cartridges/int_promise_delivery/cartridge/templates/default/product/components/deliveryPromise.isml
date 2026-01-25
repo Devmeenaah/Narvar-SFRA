@@ -1,0 +1,52 @@
+
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/deliveryPromise.css');
+    assets.addJs('/js/deliveryPromise.js');
+</isscript>
+
+<isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom 
+                    && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled 
+                    && pdict.product.available
+                    'enableNarvarPromiseInPdp' in dw.system.Site.current.preferences.custom 
+                    && dw.system.Site.current.preferences.custom.enableNarvarPromiseInPdp }">
+                    
+        <div class="delivery-promise-widget js-delivery-promise-widget" 
+            data-calculate-url="${URLUtils.url('PromiseDelivery-Calculate')}"
+            data-get-zip-url="${URLUtils.url('PromiseDelivery-GetStoredZip')}">
+            
+            <div class="delivery-promise-header">
+                <span class="delivery-icon">📍</span>
+                <label for="delivery-zip-input" class="delivery-label">
+                    Check delivery date
+                </label>
+            </div>
+            
+            <div class="delivery-promise-input-group">
+                <input 
+                    type="text" 
+                    id="delivery-zip-input"
+                    class="form-control delivery-zip-input js-delivery-zip-input" 
+                    placeholder="Enter ZIP code"
+                    maxlength="5"
+                    pattern="[0-9]{5}"
+                    aria-label="Enter ZIP code for delivery estimate"
+                />
+                <button 
+                    type="button" 
+                    class="btn btn-outline-primary delivery-check-btn js-delivery-zip-check"
+                    aria-label="Calculate delivery date">
+                    Check
+                </button>
+            </div>
+            
+            <div class="delivery-promise-result js-delivery-result" style="display: none;">
+                <span class="delivery-icon">📦</span>
+                <span class="delivery-text">
+                    Get it by <strong class="js-delivery-date"></strong>
+                </span>
+            </div>
+            
+            <div class="delivery-promise-error js-delivery-error text-danger" style="display: none;"></div>
+        </div>
+</isif>
