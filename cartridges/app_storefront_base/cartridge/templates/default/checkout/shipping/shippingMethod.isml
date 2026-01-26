@@ -6,9 +6,17 @@
             <isinclude template="checkout/shipping/selectedShippingMethod"/>
             <label class="form-check-label shipping-method-option" for="shippingMethod-${shippingMethod.ID}-${shippingModel.UUID}${lineItem ? '-' + lineItem.UUID : ''}">
                 <span class="display-name">${shippingMethod.displayName}</span>
-                <isif condition="${shippingMethod.estimatedArrivalTime}">
-                    <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>
+
+                <isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom  && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled == true}"> 
+                    <isinclude template="checkout/shipping/shippingMethodDeliveryDate" />
+                <iselse/>
+                    <isif condition="${shippingMethod.estimatedArrivalTime}">
+                        <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>
+                    </isif>
                 </isif>
+
+
+                
             </label>
         </div>
         <div class="col-3 text-right shipping-method-pricing end-lines">

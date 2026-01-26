@@ -1,0 +1,168 @@
+'use strict';
+
+/**
+ * Initialize delivery promise widget on PDP
+ */
+function initPDPWidget() {
+    var $widget = $('.js-delivery-promise-widget');
+    
+    if (!$widget.length) {
+        return;
+    }
+    
+    var $zipInput = $widget.find('.js-delivery-zip-input');
+    var $checkButton = $widget.find('.js-delivery-zip-check');
+    var $result = $widget.find('.js-delivery-result');
+    var $error = $widget.find('.js-delivery-error');
+
+    /**
+    * Show error message
+    * @param {string} message - message
+    */
+    function showError(message) {
+        $error.text(message).show();
+        $result.hide();
+    }
+
+    /**
+     * Calculate delivery date for ZIP
+     * @param {string} zip - message
+     */
+    function calculateDelivery(zip) {
+        if (!zip || zip.length !== 5) {
+            showError('Please enter a valid 5-digit ZIP code');
+            return;
+        }
+        
+        $result.hide();
+        $error.hide();
+        $checkButton.prop('disabled', true).text('Calculating...');
+        
+        $.ajax({
+            url: $widget.data('calculate-url'),
+            method: 'GET',
+            data: { zip: zip },
+            success: function(response) {
+                if (response.success) {
+                    $result.find('.js-delivery-date').text(response.formattedDate);
+                    $result.show();
+                    $error.hide();
+                } else {
+                    showError(response.error || 'Unable to calculate delivery date');
+                }
+            },
+            error: function() {
+                showError('An error occurred. Please try again.');
+            },
+            complete: function() {
+                $checkButton.prop('disabled', false).text('Check');
+            }
+        });
+    }
+    
+    // Load stored ZIP from session
+    $.ajax({
+        url: $widget.data('get-zip-url'),
+        method: 'GET',
+        success: function(response) {
+            if (response.success && response.zip) {
+                $zipInput.val(response.zip);
+                calculateDelivery(response.zip);
+            }
+        }
+    });
+    
+    // Calculate on button click
+    $checkButton.on('click', function(e) {
+        e.preventDefault();
+        var zip = $zipInput.val().trim();
+        calculateDelivery(zip);
+    });
+    
+    // Calculate on Enter key
+    $zipInput.on('keypress', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            var zip = $zipInput.val().trim();
+            calculateDelivery(zip);
+        }
+    }); 
+   
+}
+
+/**
+ * Initialize delivery promise on checkout shipping methods
+ */
+function initCheckoutWidget() {
+    var $shippingMethods = $('.js-shipping-method-list');
+
+    if (!$shippingMethods.length) {
+        return;
+    }
+
+
+    /**
+     * Update delivery dates for all shipping methods
+     */
+    function updateShippingMethodDates() {
+        var $firstMethod = $shippingMethods
+            .find('input[name$="_shippingAddress_shippingMethodID"]')
+            .first();
+        var calculateUrl = $firstMethod
+            .closest('.shipping-method-list')
+            .data('calculate-url');
+
+        $.ajax({
+            url: calculateUrl,
+            method: 'POST',
+            success: function (response) {
+                if (response.success) {
+                    // Update each shipping method with delivery date
+                    $shippingMethods
+                        .find('.js-delivery-date-display')
+                        .each(function () {
+                            $(this)
+                                .text('Get it by ' + response.formattedDate)
+                                .show();
+                        });
+                }
+            }
+        });
+    }
+
+    /**
+     * Store selected delivery date in order
+     * @param {string} methodId - methodId
+     */
+    function storeSelectedDeliveryDate(methodId) {
+        var $selectedMethod = $('input[value="' + methodId + '"]').closest(
+            '.shipping-method'
+        );
+        var deliveryDate = $selectedMethod
+            .find('.js-delivery-date-display')
+            .text();
+
+        // This would be stored via another AJAX call to update order custom attribute
+        // Implementation depends on your checkout flow
+    }
+
+    // Calculate when shipping address is completed
+    $('body').on('checkout:shippingAddressComplete', function () {
+        updateShippingMethodDates();
+    });
+
+    // Recalculate when shipping method list changes
+    $shippingMethods.on(
+        'change',
+        'input[name$="_shippingAddress_shippingMethodID"]',
+        function () {
+            var selectedMethodId = $(this).val();
+            storeSelectedDeliveryDate(selectedMethodId);
+        }
+    );
+}
+
+module.exports = {
+    initPDPWidget: initPDPWidget,
+    initCheckoutWidget: initCheckoutWidget
+};
