@@ -64,3 +64,4 @@ node_modules
 *.txt
 *.
 *.
+cartridges/app_storefront_base/cartridge/static

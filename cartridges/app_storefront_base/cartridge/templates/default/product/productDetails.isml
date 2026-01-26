@@ -117,12 +117,14 @@
                                         <isset name="price" value="${product.price}" scope="page" />
                                         <isinclude template="product/components/pricing/main" />
                                     </div>
+                                    <!--Add delivery promise widget under total price section --> 
+                                    <isinclude template="product/components/deliveryPromise" />
                                 </div>
                             </div>
 
                             <!-- Cart and [Optionally] Apple Pay -->
                             <isinclude template="product/components/addToCartProduct" />
-                        </div>
+                        </div>  
 
                         <!-- Social Sharing Icons -->
                         <div class="row">
