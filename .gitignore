@@ -54,7 +54,6 @@ m4/lt~obsolete.m4
 Makefile
 node_modules
 *.yml
-*.js
 *.json
 *.md
 *.
