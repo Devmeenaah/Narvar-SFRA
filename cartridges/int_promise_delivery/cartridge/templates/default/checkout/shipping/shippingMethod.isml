@@ -13,14 +13,14 @@
             <label class="form-check-label shipping-method-option" for="shippingMethod-${shippingMethod.ID}-${shippingModel.UUID}${lineItem ? '-' + lineItem.UUID : ''}">
                 <span class="display-name">${shippingMethod.displayName}</span>
 
-                <isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom  && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled}"> 
-                    <isinclude template="checkout/shipping/shippingMethodDeliveryDate" /> this is what pops up 
-                <iselse/>
-                    <isif condition="${shippingMethod.estimatedArrivalTime}">
-                        <isinclude template="checkout/shipping/shippingMethodDeliveryDate" /> this is what pops up 
-                       
-                    </isif>
+                <isif condition="${'enableNarvarPromiseInCheckout' in dw.system.Site.current.preferences.custom  && dw.system.Site.current.preferences.custom.enableNarvarPromiseInCheckout}"> 
+                    <isinclude template="checkout/shipping/shippingMethodDeliveryDate" /> 
                 </isif>
+
+                <isif condition="${shippingMethod.estimatedArrivalTime  && !dw.system.Site.current.preferences.custom.enableNarvarPromiseInCheckout}">
+                    <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>                       
+                </isif>
+                
 
 
                 

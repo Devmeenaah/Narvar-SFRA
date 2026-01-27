@@ -73,6 +73,11 @@ server.post('CalculateForShipping', function (req, res, next) {
     var zip = shippingAddress.postalCode.substring(0, 5);
     var result = deliveryDateHelper.calculateDeliveryDate(zip);
     
+    //store delivery date in session for persistent in order object during placement 
+    if (result.success) {
+        session.privacy.customerSelectedDeliveryDate = result.formattedDate;
+    }
+
     res.json(result);
     next();
 });

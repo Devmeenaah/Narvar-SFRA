@@ -123,16 +123,14 @@ function initCheckoutWidget() {
             success: function (response) {
                 if (response.success) {
                     // Update each shipping method with delivery date
-                    $('.shipping-method-list')
-                        .find('.js-delivery-date-display')
-                        .each(function () {
-                            var $element = $(this);
-                            // Only update if not already populated
-                            if (!$element.text()) {
-                                $element
-                                    .text('Get it by ' + response.formattedDate)
-                                    .show();
-                            }
+                        $('.shipping-method-list').each(function () {
+                        var $methodItem = $(this);
+                        // Clear estimated arrival time
+                        $methodItem.find('.arrival-time').text('').hide();
+                        // Update delivery date
+                        $methodItem.find('.js-delivery-date-display')
+                            .text('Get it by ' + response.formattedDate)
+                            .show();  
                         });
                 }
             }

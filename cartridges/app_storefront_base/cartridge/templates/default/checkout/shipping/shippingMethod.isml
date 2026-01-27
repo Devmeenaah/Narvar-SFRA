@@ -9,7 +9,6 @@
                 <isif condition="${shippingMethod.estimatedArrivalTime}">
                     <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>
                 </isif>
-                <isinclude template="checkout/shipping/shippingMethodDeliveryDate" />
             </label>
         </div>
         <div class="col-3 text-right shipping-method-pricing end-lines">
