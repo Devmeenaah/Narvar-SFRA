@@ -1,7 +1,7 @@
 <isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom 
-                    && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled == true 
+                    && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled 
                     && 'enableNarvarPromiseInCheckout' in dw.system.Site.current.preferences.custom 
-                    && dw.system.Site.current.preferences.custom.enableNarvarPromiseInCheckout == true
+                    && dw.system.Site.current.preferences.custom.enableNarvarPromiseInCheckout
                     && pdict.product.available }">
     <div class="shipping-method-delivery-date js-delivery-date-display" 
          data-method-id="${shippingMethod.ID}"
