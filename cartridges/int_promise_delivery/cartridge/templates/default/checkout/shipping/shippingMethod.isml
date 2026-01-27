@@ -1,4 +1,10 @@
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/deliveryPromise.css');
+    assets.addJs('/js/deliveryPromise.js');
+</isscript>
 <isset name="shippingAddress" value="${pdict.forms.shippingForm.shippingAddress}" scope="page"/>
+
 <div class="row leading-lines shipping-method-list" data-select-shipping-method-url="${URLUtils.https('CheckoutShippingServices-SelectShippingMethod')}" data-action-url="${URLUtils.https('CheckoutShippingServices-UpdateShippingMethodsList')}" data-calculate-url="${URLUtils.url('PromiseDelivery-CalculateForShipping')}">
     <input name="shipmentUUID" type="hidden" value="${shippingModel.UUID}" />
     <isloop items="${shippingModel.applicableShippingMethods}" var="shippingMethod">
@@ -7,11 +13,12 @@
             <label class="form-check-label shipping-method-option" for="shippingMethod-${shippingMethod.ID}-${shippingModel.UUID}${lineItem ? '-' + lineItem.UUID : ''}">
                 <span class="display-name">${shippingMethod.displayName}</span>
 
-                <isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom  && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled == true}"> 
-                    <isinclude template="checkout/shipping/shippingMethodDeliveryDate" />
+                <isif condition="${'deliveryPromiseEnabled' in dw.system.Site.current.preferences.custom  && dw.system.Site.current.preferences.custom.deliveryPromiseEnabled}"> 
+                    <isinclude template="checkout/shipping/shippingMethodDeliveryDate" /> this is what pops up 
                 <iselse/>
                     <isif condition="${shippingMethod.estimatedArrivalTime}">
-                        <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>
+                        <isinclude template="checkout/shipping/shippingMethodDeliveryDate" /> this is what pops up 
+                       
                     </isif>
                 </isif>
 
@@ -34,6 +41,7 @@
         <label class="form-check-label shipping-method-option" for="shippingMethodRadioButton-${shippingModel.UUID}${lineItem ? '-' + lineItem.UUID : ''}">
             <span class="display-name"></span>
             <span class="text-muted arrival-time" style="display:none"></span>
+            <span class="shipping-method-delivery-date js-delivery-date-display"></span>
         </label>
     </div>
     <div class="col-3 text-right shipping-method-pricing end-lines">
