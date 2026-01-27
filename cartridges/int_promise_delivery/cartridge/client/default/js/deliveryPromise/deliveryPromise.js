@@ -94,7 +94,7 @@ function initPDPWidget() {
  * Initialize delivery promise on checkout shipping methods
  */
 function initCheckoutWidget() {
-    var $shippingMethods = $('.js-shipping-method-list');
+    var $shippingMethods = $('.shipping-method-list');
 
     if (!$shippingMethods.length) {
         return;
@@ -105,12 +105,17 @@ function initCheckoutWidget() {
      * Update delivery dates for all shipping methods
      */
     function updateShippingMethodDates() {
-        var $firstMethod = $shippingMethods
-            .find('input[name$="_shippingAddress_shippingMethodID"]')
-            .first();
-        var calculateUrl = $firstMethod
-            .closest('.shipping-method-list')
-            .data('calculate-url');
+        var $methodList = $('.shipping-method-list').first();
+        
+        if (!$methodList.length) {
+            return;
+        }
+        
+        var calculateUrl = $methodList.data('calculate-url');
+        
+        if (!calculateUrl) {
+            return;
+        }
 
         $.ajax({
             url: calculateUrl,
@@ -118,48 +123,33 @@ function initCheckoutWidget() {
             success: function (response) {
                 if (response.success) {
                     // Update each shipping method with delivery date
-                    $shippingMethods
+                    $('.shipping-method-list')
                         .find('.js-delivery-date-display')
                         .each(function () {
-                            $(this)
-                                .text('Get it by ' + response.formattedDate)
-                                .show();
+                            var $element = $(this);
+                            // Only update if not already populated
+                            if (!$element.text()) {
+                                $element
+                                    .text('Get it by ' + response.formattedDate)
+                                    .show();
+                            }
                         });
                 }
             }
         });
     }
 
-    /**
-     * Store selected delivery date in order
-     * @param {string} methodId - methodId
-     */
-    function storeSelectedDeliveryDate(methodId) {
-        var $selectedMethod = $('input[value="' + methodId + '"]').closest(
-            '.shipping-method'
-        );
-        var deliveryDate = $selectedMethod
-            .find('.js-delivery-date-display')
-            .text();
-
-        // This would be stored via another AJAX call to update order custom attribute
-        // Implementation depends on your checkout flow
-    }
-
-    // Calculate when shipping address is completed
-    $('body').on('checkout:shippingAddressComplete', function () {
+    // Trigger calculation when checkout view is updated with new shipping methods
+    $('body').on('checkout:updateCheckoutView', function () {
         updateShippingMethodDates();
     });
-
-    // Recalculate when shipping method list changes
-    $shippingMethods.on(
-        'change',
-        'input[name$="_shippingAddress_shippingMethodID"]',
-        function () {
-            var selectedMethodId = $(this).val();
-            storeSelectedDeliveryDate(selectedMethodId);
-        }
-    );
+    
+    // Also trigger on initial page load if shipping methods are present
+    if ($shippingMethods.length) {
+        setTimeout(function() {
+            updateShippingMethodDates();
+        }, 500);
+    }
 }
 
 module.exports = {

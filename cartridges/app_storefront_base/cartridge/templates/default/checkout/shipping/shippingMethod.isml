@@ -1,5 +1,5 @@
 <isset name="shippingAddress" value="${pdict.forms.shippingForm.shippingAddress}" scope="page"/>
-<div class="row leading-lines shipping-method-list" data-select-shipping-method-url="${URLUtils.https('CheckoutShippingServices-SelectShippingMethod')}" data-action-url="${URLUtils.https('CheckoutShippingServices-UpdateShippingMethodsList')}">
+<div class="row leading-lines shipping-method-list" data-select-shipping-method-url="${URLUtils.https('CheckoutShippingServices-SelectShippingMethod')}" data-action-url="${URLUtils.https('CheckoutShippingServices-UpdateShippingMethodsList')}" data-calculate-url="${URLUtils.url('PromiseDelivery-CalculateForShipping')}">
     <input name="shipmentUUID" type="hidden" value="${shippingModel.UUID}" />
     <isloop items="${shippingModel.applicableShippingMethods}" var="shippingMethod">
         <div class="form-check col-9 start-lines">
@@ -9,6 +9,7 @@
                 <isif condition="${shippingMethod.estimatedArrivalTime}">
                     <span class="text-muted arrival-time">(${shippingMethod.estimatedArrivalTime})</span>
                 </isif>
+                <isinclude template="checkout/shipping/shippingMethodDeliveryDate" />
             </label>
         </div>
         <div class="col-3 text-right shipping-method-pricing end-lines">
@@ -26,6 +27,7 @@
         <label class="form-check-label shipping-method-option" for="shippingMethodRadioButton-${shippingModel.UUID}${lineItem ? '-' + lineItem.UUID : ''}">
             <span class="display-name"></span>
             <span class="text-muted arrival-time" style="display:none"></span>
+            <span class="shipping-method-delivery-date js-delivery-date-display" style="display: none;"></span>
         </label>
     </div>
     <div class="col-3 text-right shipping-method-pricing end-lines">
