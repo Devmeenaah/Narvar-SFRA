@@ -86,6 +86,19 @@ function initPDPWidget() {
             var zip = $zipInput.val().trim();
             calculateDelivery(zip);
         }
+    });
+    
+    // Calculate on keydown or input change
+    $zipInput.on('keydown input change', function() {
+        var zip = $zipInput.val().trim();
+        // Only calculate if a valid 5-digit ZIP is entered
+        if (zip.length === 5) {
+            calculateDelivery(zip);
+        } else if (zip.length === 0) {
+            // Clear results if input is empty
+            $result.hide();
+            $error.hide();
+        }
     }); 
    
 }
