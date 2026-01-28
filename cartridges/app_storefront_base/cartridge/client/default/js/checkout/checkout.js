@@ -7,6 +7,8 @@ var billingHelpers = require('./billing');
 var summaryHelpers = require('./summary');
 var formHelpers = require('./formErrors');
 var scrollAnimate = require('../components/scrollAnimate');
+require('../components/spinner');
+
 var location = window.location;
 var history = window.history;
 

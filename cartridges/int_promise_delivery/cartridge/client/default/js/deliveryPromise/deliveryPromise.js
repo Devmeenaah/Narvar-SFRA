@@ -88,19 +88,18 @@ function initPDPWidget() {
         }
     });
     
-    // Calculate on keydown or input change
+    // Real-time validation and calculation as user types
     $zipInput.on('keydown input change', function() {
         var zip = $zipInput.val().trim();
         // Only calculate if a valid 5-digit ZIP is entered
-        if (zip.length === 5) {
+        if (zip.length === 5 && /^\d{5}$/.test(zip)) {
             calculateDelivery(zip);
         } else if (zip.length === 0) {
             // Clear results if input is empty
             $result.hide();
             $error.hide();
         }
-    }); 
-   
+    });
 }
 
 /**
@@ -136,7 +135,7 @@ function initCheckoutWidget() {
             success: function (response) {
                 if (response.success) {
                     // Update each shipping method with delivery date
-                        $('.shipping-method-list').each(function () {
+                    $('.shipping-method-list').each(function () {
                         var $methodItem = $(this);
                         // Clear estimated arrival time
                         $methodItem.find('.arrival-time').text('').hide();
@@ -144,11 +143,21 @@ function initCheckoutWidget() {
                         $methodItem.find('.js-delivery-date-display')
                             .text('Get it by ' + response.formattedDate)
                             .show();  
-                        });
+                    });
                 }
             }
         });
     }
+
+    // Handle change event on shipping method selection
+    $('body').on('change', '.shipping-method-list input[type="radio"]', function() {
+        updateShippingMethodDates();
+    });
+    
+    // Handle change event on shipping zip code default
+    $('body').on('change', '[name*="shippingZipCodedefault"], [data-shipping-zip-code]', function() {
+        updateShippingMethodDates();
+    });
 
     // Trigger calculation when checkout view is updated with new shipping methods
     $('body').on('checkout:updateCheckoutView', function () {

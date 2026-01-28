@@ -2,6 +2,7 @@
 
 var base = require('base/product/base');
 var focusHelper = require('base/components/focus');
+require('base/components/spinner');
 
 /**
  * Updates the Mini-Cart quantity value after the customer has pressed the "Add to Cart" button

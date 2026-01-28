@@ -1,6 +1,7 @@
 'use strict';
 
 var base = require('./base');
+require('../components/spinner');
 
 /**
  * Enable/disable UI elements
